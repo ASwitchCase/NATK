@@ -1,7 +1,8 @@
+using NATK.Sdk;
 using NATK.Sdk.Api.BusData.Resources;
 using NATK.Sdk.Http;
 
-namespace NATK.Sdk;
+namespace NATK.Clients.Sdk;
 
 public sealed class NATKBusClient
 {

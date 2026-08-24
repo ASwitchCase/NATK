@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using NATK.Sdk.Http;
-using NATK.Sdk;
+using NATK.Clients.Sdk;
 
 namespace NATK.Sdk
 {
