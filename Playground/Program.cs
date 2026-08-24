@@ -1,8 +1,11 @@
 ﻿using NATK.Sdk;
+using DotNetEnv;
+
+Env.Load();
 
 var client = new NATKClient(new NATKClientOptions
 {
-    ApiKey = "639231793266433934"
+    ApiKey = Environment.GetEnvironmentVariable("NJTRANSIT_TOKEN") ?? throw new InvalidOperationException("NJTRANSIT_TOKEN environment variable is not set."),
 });
 
 var busLocations = await client.BusLocations.GetBusLocationsAsync();
