@@ -9,16 +9,23 @@ namespace NATK.Sdk
         /// <summary>
         /// Username for authenticating with the NJTrransit Developer Portal.
         /// </summary>
-        public required string username { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Password for authenticating with the NJTrransit Developer Portal.
         /// </summary>
-        public required string password { get; set; }
+        public string Password { get; set; }
+
+        /// <summary>Relative path (from <see cref="BaseUrl"/>) of the token endpoint.</summary>
+        public string TokenEndpoint { get; set; } = "pcsdata.njtransit.com/api/BUSDV2/authenticateUser";
 
         /// <summary>
-        /// The number of times to retry failed requests.
+        /// How much earlier than the token's real expiry to treat it as expired,
+        /// giving in-flight requests a safety margin. Defaults to 30 seconds.
         /// </summary>
-        public int retryCount { get; set; } = 3;
+        public TimeSpan TokenExpiryBuffer { get; set; } = TimeSpan.FromSeconds(86400);
+
+        /// <summary>Maximum number of retry attempts for transient failures.</summary>
+        public int MaxRetryAttempts { get; set; } = 3;
     }
 }

@@ -1,2 +1,5 @@
 <Solution>
+	<Project Path="src/NATK.Sdk/NATK.Sdk.csproj" />
+	<Project Path="Playground/Playground.csproj" />
+	<Project Path="tests/NATK.Sdk.Tests/NAKT.Sdk.Tests.csproj" />
 </Solution>
