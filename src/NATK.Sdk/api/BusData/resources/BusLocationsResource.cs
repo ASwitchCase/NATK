@@ -11,7 +11,7 @@ public sealed class BusLocationsResource
         _httpClient = httpClient;
     }
 
-    public async Task<IReadOnlyList<BusLocation>> GetBusLocationsAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<BusLocationModel>?> GetBusLocationsAsync(CancellationToken cancellationToken = default)
     {
         var formDataContent = new MultipartFormDataContent
         {
@@ -28,6 +28,10 @@ public sealed class BusLocationsResource
         }
 
         var busLocations = await response.Content.ReadFromJsonAsync<BusLocation[]>(cancellationToken: cancellationToken);
-        return busLocations ?? Array.Empty<BusLocation>();
+        return busLocations?.Select(location => new BusLocationModel
+        {
+            BusTerminalCode = location.BusTerminalCode,
+            BusTerminalName = location.BusTerminalName
+        }).ToArray() ?? Array.Empty<BusLocationModel>();
     }
 }

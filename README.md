@@ -1,8 +1,7 @@
 # NATK SDK
 
 NATK (NJTransit API Tool Kit) is a .NET SDK for experimenting with NJTransit
-Bus and Rail APIs. The project is currently focused on the Bus API, including
-retrieving bus locations. Rail API support is planned as the SDK grows.
+Bus and Rail APIs.
 
 > **Disclaimer:** NATK is an independent, community project. It is not
 > affiliated with, endorsed by, or sponsored by NJTransit. It is intended for
@@ -27,22 +26,7 @@ retrieving bus locations. Rail API support is planned as the SDK grows.
    test application as required by NJTransit, and repeat the portal's token
    request process when the token expires or is revoked.
 
-The portal is the source of truth for current account approval, token lifetime,
-rate limits, and endpoint access. NATK does not currently create, refresh,
-cache, or revoke tokens. It passes the token supplied in `ApiKey` to the API as
-the multipart form field named `token`.
-
 ## Install and configure
-
-From a .NET application, add a project or package reference to NATK. When using
-the project in this repository:
-
-```xml
-<ProjectReference Include="../src/NATK.Sdk/NATK.Sdk.csproj" />
-```
-
-Store the temporary token in an environment variable. For local development,
-you can use a `.env` file that is ignored by git:
 
 ```text
 NJTRANSIT_TOKEN=replace-with-your-temporary-token
