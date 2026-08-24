@@ -6,26 +6,15 @@ namespace NATK.Sdk
 {
     public class NATKClientOptions
     {
-        /// <summary>
-        /// Username for authenticating with the NJTrransit Developer Portal.
-        /// </summary>
-        public string Username { get; set; }
+        
+    /// <summary>API key used to authenticate requests.</summary>
+    public required string ApiKey { get; set; }
 
-        /// <summary>
-        /// Password for authenticating with the NJTrransit Developer Portal.
-        /// </summary>
-        public string Password { get; set; }
+    /// <summary>Base URL of the API. Defaults to the production endpoint.</summary>
+    public Uri BusBaseUrl { get; set; } = new("https://pcsdata.njtransit.com/api/BUSDV2/");
+    public Uri RailBaseUrl { get; set; } = new("https://api.example.com/v1/");
 
-        /// <summary>Relative path (from <see cref="BaseUrl"/>) of the token endpoint.</summary>
-        public string TokenEndpoint { get; set; } = "pcsdata.njtransit.com/api/BUSDV2/authenticateUser";
-
-        /// <summary>
-        /// How much earlier than the token's real expiry to treat it as expired,
-        /// giving in-flight requests a safety margin. Defaults to 30 seconds.
-        /// </summary>
-        public TimeSpan TokenExpiryBuffer { get; set; } = TimeSpan.FromSeconds(86400);
-
-        /// <summary>Maximum number of retry attempts for transient failures.</summary>
-        public int MaxRetryAttempts { get; set; } = 3;
+    /// <summary>Maximum number of retry attempts for transient failures.</summary>
+    public int MaxRetryAttempts { get; set; } = 3;
     }
 }

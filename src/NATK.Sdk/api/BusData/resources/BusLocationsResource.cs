@@ -13,8 +13,19 @@ public sealed class BusLocationsResource
 
     public async Task<IReadOnlyList<BusLocation>> GetBusLocationsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("bus-locations", cancellationToken);
-        response.EnsureSuccessStatusCode();
+        var formDataContent = new MultipartFormDataContent
+        {
+            { new StringContent("ALL"), "mode" }
+        };
+        
+        var response = await _httpClient.PostAsync("getLocations", formDataContent, cancellationToken);
+        var body = await response.Content.ReadAsStringAsync(cancellationToken);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException(
+                $"Bus API returned {(int)response.StatusCode}: {body}");
+        }
 
         var busLocations = await response.Content.ReadFromJsonAsync<BusLocation[]>(cancellationToken: cancellationToken);
         return busLocations ?? Array.Empty<BusLocation>();
