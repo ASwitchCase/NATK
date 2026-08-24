@@ -1,12 +1,12 @@
-using MyCompany.Sdk.Http;
 using NATK.Sdk.Api.BusData.Resources;
+using NATK.Sdk.Http;
 
 namespace NATK.Sdk;
 
-public sealed class NATKClient
+public sealed class NATKBusClient
 {
     public BusLocationsResource BusLocations { get; }
-    public NATKClient(NATKClientOptions options)
+    public NATKBusClient(NATKClientOptions options)
     {
         var handler = new ApiKeyAuthHandler(options.ApiKey)
         {
@@ -14,12 +14,12 @@ public sealed class NATKClient
         };
         var busClient = new HttpClient(handler)
         {
-            BaseAddress = options.BusBaseUrl
+            BaseAddress = options.BaseUrl
         };
         BusLocations = new BusLocationsResource(busClient);
     }
 
-    internal NATKClient(HttpClient busClient)
+    public NATKBusClient(HttpClient busClient)
     {
         BusLocations = new BusLocationsResource(busClient);
     }

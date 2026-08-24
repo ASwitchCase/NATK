@@ -11,8 +11,7 @@ namespace NATK.Sdk
     public required string ApiKey { get; set; }
 
     /// <summary>Base URL of the API. Defaults to the production endpoint.</summary>
-    public Uri BusBaseUrl { get; set; } = new("https://pcsdata.njtransit.com/api/BUSDV2/");
-    public Uri RailBaseUrl { get; set; } = new("https://api.example.com/v1/");
+    public Uri BaseUrl { get; set; } = new("https://pcsdata.njtransit.com/api/BUSDV2/");
 
     /// <summary>Maximum number of retry attempts for transient failures.</summary>
     public int MaxRetryAttempts { get; set; } = 3;

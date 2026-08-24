@@ -1,17 +1,25 @@
-﻿using NATK.Sdk;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using NATK.Sdk;
 using DotNetEnv;
 
 Env.Load();
 
-var client = new NATKClient(new NATKClientOptions
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddNATKBusClient(options =>
 {
-    ApiKey = Environment.GetEnvironmentVariable("NJTRANSIT_TOKEN") ?? throw new InvalidOperationException("NJTRANSIT_TOKEN environment variable is not set."),
+    options.ApiKey = Environment.GetEnvironmentVariable("NJTRANSIT_TOKEN")
+        ?? throw new InvalidOperationException("NJTRANSIT_TOKEN is not set.");
 });
 
-var busLocations = await client.BusLocations.GetBusLocationsAsync();
-Console.WriteLine($"Retrieved {busLocations.Count} bus locations.");
-Console.WriteLine("Bus Locations:");
-foreach (var location in busLocations)
+var app = builder.Build();
+
+app.MapGet("/bus-locations", async (NATKBusClient natkClient) =>
 {
-    Console.WriteLine($"Code: {location.BusTerminalCode}, Name: {location.BusTerminalName}");
-}
+    var busLocations = await natkClient.BusLocations.GetBusLocationsAsync();
+    return Results.Ok(busLocations);
+});
+
+app.Run();

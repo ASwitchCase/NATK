@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 
-namespace MyCompany.Sdk.Http;
+namespace NATK.Sdk.Http;
 
 internal sealed class ApiKeyAuthHandler : DelegatingHandler
 {
