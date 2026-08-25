@@ -102,3 +102,4 @@ secrets.json
 appsettings.*.local.json
 .env
 plans/
+/help/
