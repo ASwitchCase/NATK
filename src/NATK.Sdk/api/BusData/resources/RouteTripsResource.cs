@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to bus trip data for a route.
+/// </summary>
 public sealed class RouteTripsResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,13 @@ public sealed class RouteTripsResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves trips, optionally filtered by location or route.
+    /// </summary>
+    /// <param name="location">The location to filter trips by, or <c>null</c> to include all locations.</param>
+    /// <param name="route">The bus route identifier to filter trips by, or <c>null</c> to include all routes.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The matching trips, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<DVTripModel>?> GetRouteTripsAsync(
         string? location = null,
         string? route = null,
@@ -33,6 +43,11 @@ public sealed class RouteTripsResource
         return trips?.Select(ToModel).ToArray() ?? Array.Empty<DVTripModel>();
     }
 
+    /// <summary>
+    /// Maps a raw <see cref="DVTrip"/> API response to a <see cref="DVTripModel"/>.
+    /// </summary>
+    /// <param name="trip">The raw trip data returned by the API.</param>
+    /// <returns>The mapped trip model.</returns>
     internal static DVTripModel ToModel(DVTrip trip) => new()
     {
         PublicRoute = trip.PublicRoute,

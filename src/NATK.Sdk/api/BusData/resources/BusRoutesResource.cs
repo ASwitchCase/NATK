@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to bus route data.
+/// </summary>
 public sealed class BusRoutesResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,12 @@ public sealed class BusRoutesResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves the list of bus routes.
+    /// </summary>
+    /// <param name="mode">The transit mode to filter results by. Defaults to <c>"ALL"</c>.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The matching bus routes, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<BusRouteModel>?> GetBusRoutesAsync(string mode = "ALL", CancellationToken cancellationToken = default)
     {
         var formDataContent = new MultipartFormDataContent

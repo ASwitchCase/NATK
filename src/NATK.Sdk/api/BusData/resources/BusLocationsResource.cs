@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to bus terminal location data.
+/// </summary>
 public sealed class BusLocationsResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,11 @@ public sealed class BusLocationsResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves the list of all bus terminals.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The bus terminals, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<BusLocationModel>?> GetBusLocationsAsync(CancellationToken cancellationToken = default)
     {
         var formDataContent = new MultipartFormDataContent

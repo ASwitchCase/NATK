@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to real-time bus vehicle location data.
+/// </summary>
 public sealed class VehicleLocationsResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,15 @@ public sealed class VehicleLocationsResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves real-time vehicle locations, optionally filtered by geographic proximity and mode.
+    /// </summary>
+    /// <param name="lat">The latitude to search near, or <c>null</c> to omit proximity filtering.</param>
+    /// <param name="lon">The longitude to search near, or <c>null</c> to omit proximity filtering.</param>
+    /// <param name="radius">The search radius (in miles) around the given <paramref name="lat"/>/<paramref name="lon"/>. Defaults to <c>1</c>.</param>
+    /// <param name="mode">The transit mode to filter results by. Defaults to <c>"ALL"</c>.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The matching vehicle locations, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<VehicleLocationModel>?> GetVehicleLocationsAsync(
         string? lat = null,
         string? lon = null,

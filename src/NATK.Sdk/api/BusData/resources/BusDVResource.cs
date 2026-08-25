@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to the bus departure/arrival "DV" (digital view) sign data endpoint.
+/// </summary>
 public sealed class BusDVResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,14 @@ public sealed class BusDVResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves digital sign (departure/arrival) trip data, optionally filtered by stop, direction, or route.
+    /// </summary>
+    /// <param name="stop">The bus stop number to filter results by, or <c>null</c> to include all stops.</param>
+    /// <param name="direction">The route direction to filter results by, or <c>null</c> to include all directions.</param>
+    /// <param name="route">The bus route identifier to filter results by, or <c>null</c> to include all routes.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The digital sign data, including a status message and matching trips, or <c>null</c> if no data was returned.</returns>
     public async Task<BusDVModel?> GetBusDVAsync(
         string? stop = null,
         string? direction = null,

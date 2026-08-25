@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to the stops served by a bus trip.
+/// </summary>
 public sealed class TripStopsResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,14 @@ public sealed class TripStopsResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves the stops for a bus trip, identified by timing point, scheduled departure time, or internal trip number.
+    /// </summary>
+    /// <param name="timingPointId">The timing point identifier to filter results by, or <c>null</c> to omit this filter.</param>
+    /// <param name="schedDepTime">The scheduled departure time to filter results by, or <c>null</c> to omit this filter.</param>
+    /// <param name="internalTripNumber">The internal trip number to filter results by, or <c>null</c> to omit this filter.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The matching trip stops, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<TripStopModel>?> GetTripStopsAsync(
         string? timingPointId = null,
         string? schedDepTime = null,

@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to detailed bus stop location data, including geographic search.
+/// </summary>
 public sealed class BusLocationsDataResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,17 @@ public sealed class BusLocationsDataResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves bus stop location data, optionally filtered by route, direction, geographic proximity, or mode.
+    /// </summary>
+    /// <param name="route">The bus route identifier to filter results by, or <c>null</c> to include all routes.</param>
+    /// <param name="direction">The route direction to filter results by, or <c>null</c> to include all directions.</param>
+    /// <param name="lat">The latitude to search near, or <c>null</c> to omit proximity filtering.</param>
+    /// <param name="lon">The longitude to search near, or <c>null</c> to omit proximity filtering.</param>
+    /// <param name="radius">The search radius (in miles) around the given <paramref name="lat"/>/<paramref name="lon"/>, or <c>null</c> for the default radius.</param>
+    /// <param name="mode">The transit mode to filter results by. Defaults to <c>"ALL"</c>.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The matching bus stop locations, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<BusLocationDataModel>?> GetBusLocationsDataAsync(
         string? route = null,
         string? direction = null,

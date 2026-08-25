@@ -2,6 +2,9 @@ using System.Net.Http.Json;
 
 namespace NATK.Sdk.Api.BusData.Resources;
 
+/// <summary>
+/// Provides access to bus stop name lookup data.
+/// </summary>
 public sealed class StopNameResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,12 @@ public sealed class StopNameResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves the name of a bus stop by its stop number.
+    /// </summary>
+    /// <param name="stopNumber">The bus stop number to look up.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The stop's name, or <c>null</c> if no data was returned.</returns>
     public async Task<StopNameModel?> GetStopNameAsync(string stopNumber, CancellationToken cancellationToken = default)
     {
         var formDataContent = new MultipartFormDataContent
