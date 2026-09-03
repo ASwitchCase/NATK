@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddNATKBusClient(options =>
 {
-    options.ApiKey = Environment.GetEnvironmentVariable("NJTRANSIT_TOKEN")
+    options.ApiKey = Environment.GetEnvironmentVariable("BUS_TOKEN")
         ?? throw new InvalidOperationException("NJTRANSIT_TOKEN is not set.");
 });
 
@@ -87,6 +87,42 @@ app.MapGet("/rail-stations", async (NATKRailClient natkClient) =>
 {
     var trainStations = await natkClient.TrainStations.GetTrainStationsAsync();
     return Results.Ok(trainStations);
+});
+
+app.MapGet("/rail-station-messages", async (NATKRailClient natkClient, string station = "", string line = "") =>
+{
+    var stationMessages = await natkClient.StationMessages.GetStationMessagesAsync(station, line);
+    return Results.Ok(stationMessages);
+});
+
+app.MapGet("/rail-station-schedule", async (NATKRailClient natkClient, string station = "", bool njtOnly = false) =>
+{
+    var stationSchedule = await natkClient.StationSchedule.GetStationScheduleAsync(station, njtOnly);
+    return Results.Ok(stationSchedule);
+});
+
+app.MapGet("/rail-train-schedule", async (NATKRailClient natkClient, string station) =>
+{
+    var trainSchedule = await natkClient.TrainSchedule.GetTrainScheduleAsync(station);
+    return Results.Ok(trainSchedule);
+});
+
+app.MapGet("/rail-train-schedule-by-line", async (NATKRailClient natkClient, string station, string? line) =>
+{
+    var trainSchedule = await natkClient.TrainSchedule.GetTrainScheduleByLineAsync(station, line);
+    return Results.Ok(trainSchedule);
+});
+
+app.MapGet("/rail-train-stop-list", async (NATKRailClient natkClient, string train) =>
+{
+    var trainStopList = await natkClient.TrainStopList.GetTrainStopListAsync(train);
+    return Results.Ok(trainStopList);
+});
+
+app.MapGet("/rail-vehicle-data", async (NATKRailClient natkClient) =>
+{
+    var vehicleData = await natkClient.VehicleData.GetVehicleDataAsync();
+    return Results.Ok(vehicleData);
 });
 
 app.Run();

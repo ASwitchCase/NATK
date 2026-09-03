@@ -1,7 +1,10 @@
 using System.Net.Http.Json;
 
-namespace NATK.api.RailData.resources;
+namespace NATK.Sdk.Api.RailData.Resources;
 
+/// <summary>
+/// Provides access to rail station data.
+/// </summary>
 public sealed class TrainStationResource
 {
     private readonly HttpClient _httpClient;
@@ -11,6 +14,11 @@ public sealed class TrainStationResource
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Retrieves the list of all available train stations.
+    /// </summary>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    /// <returns>The train stations, or an empty list if none were returned.</returns>
     public async Task<IReadOnlyList<TrainStationModel>?> GetTrainStationsAsync(CancellationToken cancellationToken = default)
     {
         var formDataContent = new MultipartFormDataContent{};

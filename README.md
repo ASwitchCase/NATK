@@ -70,6 +70,44 @@ app.MapGet("/bus-locations", async (NATKBusClient client) =>
 `GetBusLocationsAsync` requests all available locations (`mode=ALL`) and
 returns an `IReadOnlyList<BusLocation>`.
 
+## Example: rail data
+
+Configure `NATKRailClient` the same way, then inject it into an application
+service, endpoint, or controller:
+
+```csharp
+builder.Services.AddNATKRailClient(options =>
+{
+    options.ApiKey = Environment.GetEnvironmentVariable("RAIL_TOKEN")
+        ?? throw new InvalidOperationException("RAIL_TOKEN is not set.");
+});
+
+app.MapGet("/rail-train-schedule", async (NATKRailClient client, string station) =>
+{
+    var schedule = await client.TrainSchedule.GetTrainScheduleAsync(station);
+    return Results.Ok(schedule);
+});
+```
+
+The default base URL points at NJ Transit's Rail test environment
+(`https://testraildata.njtransit.com/api/TrainData/`) and can be overridden
+via `options.BaseUrl`, the same way as the Bus client.
+
+`NATKRailClient` exposes one resource per endpoint:
+
+- `TrainStations` — all available train stations.
+- `StationMessages` — station/line service messages, optionally filtered by
+  station or line.
+- `StationSchedule` — a station's daily schedule.
+- `TrainSchedule` — real-time station schedules, via
+  `GetTrainScheduleAsync` (full board) and `GetTrainScheduleByLineAsync`
+  (up to 19 departures, optionally filtered by line).
+- `TrainStopList` — the stop list and capacity data for a specific train.
+- `VehicleData` — real-time GPS location and status for all trains.
+
+Obtaining and validating an API token (`getToken`/`isValidToken`) is not
+part of the SDK's resource surface and is left to the application.
+
 ## Run the sample
 
 The `Playground` project is a minimal ASP.NET Core example. Set
@@ -91,6 +129,6 @@ dotnet test NATK.Sdk.slnx
 
 ## Project status
 
-Bus location access is available today. Rail resources and additional API
-operations are still under development, so public APIs may change while the
-project is being developed.
+Bus location access and Rail station, schedule, stop list, and vehicle data
+are available today. Additional API operations are still under development,
+so public APIs may change while the project is being developed.
